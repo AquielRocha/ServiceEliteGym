@@ -79,7 +79,7 @@ public async Task<IActionResult> PutAula(int id, Aula aula)
 }
 
         // DELETE: api/aulas/5
-        [HttpDelete("del{id}")]
+        [HttpDelete("del/{id}")]
         public async Task<IActionResult> DeleteAula(int id)
         {
             var aula = await _context.Aulas.FindAsync(id);
