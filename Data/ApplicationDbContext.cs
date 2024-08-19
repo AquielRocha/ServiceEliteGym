@@ -15,6 +15,15 @@ namespace SERVICE.Data
         public DbSet<Alunos> Alunos { get; set; }
         public DbSet<Enderecos> Enderecos { get; set; }
 
+
+
+
+
+
+
+
+
+            //Inner Joins 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
