@@ -95,6 +95,10 @@ namespace SERVICE.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Categoria")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasColumnType("text");
@@ -102,6 +106,9 @@ namespace SERVICE.Migrations
                     b.Property<string>("Foto")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("Manutencao")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Nome")
                         .IsRequired()
