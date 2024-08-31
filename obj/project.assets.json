@@ -3475,19 +3475,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Bruno\\.nuget\\packages\\": {}
+    "C:\\Users\\Faculdade\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Bruno\\Documents\\ProjetoAcademia\\ServiceEliteGym\\SERVICE.csproj",
+      "projectUniqueName": "C:\\Users\\Faculdade\\Desktop\\Projetos\\ServiceEliteGym\\SERVICE.csproj",
       "projectName": "SERVICE",
-      "projectPath": "C:\\Users\\Bruno\\Documents\\ProjetoAcademia\\ServiceEliteGym\\SERVICE.csproj",
-      "packagesPath": "C:\\Users\\Bruno\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Bruno\\Documents\\ProjetoAcademia\\ServiceEliteGym\\obj\\",
+      "projectPath": "C:\\Users\\Faculdade\\Desktop\\Projetos\\ServiceEliteGym\\SERVICE.csproj",
+      "packagesPath": "C:\\Users\\Faculdade\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Faculdade\\Desktop\\Projetos\\ServiceEliteGym\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Bruno\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Faculdade\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3495,6 +3495,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
