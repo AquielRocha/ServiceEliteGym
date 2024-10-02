@@ -63,6 +63,26 @@ namespace SERVICE.Controllers
             return NoContent();
         }
 
+[HttpPut("pagar/{mensalidadeId}")]
+public async Task<IActionResult> PagarMensalidade(int mensalidadeId)
+{
+    var mensalidade = await _context.Mensalidades.FindAsync(mensalidadeId);
+    if (mensalidade == null)
+    {
+        return NotFound();
+    }
+
+    // Atualiza os dados da mensalidade
+    mensalidade.DataPagamento = DateTime.UtcNow;
+    mensalidade.Status = "Pago";
+
+    _context.Mensalidades.Update(mensalidade);
+    await _context.SaveChangesAsync();
+
+    return Ok(mensalidade);
+}
+
+
         private bool MensalidadeExists(int id)
         {
             return _context.Mensalidades.Any(e => e.Id == id);
