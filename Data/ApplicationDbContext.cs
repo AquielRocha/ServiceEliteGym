@@ -15,7 +15,8 @@ namespace SERVICE.Data
         public DbSet<Alunos> Alunos { get; set; }
         public DbSet<Enderecos> Enderecos { get; set; }
 
-
+  public DbSet<Mensalidade> Mensalidades { get; set; }
+    public DbSet<Plano> Planos { get; set; } // Mapeamento do DbSet para Planos
 
 
 

@@ -22,6 +22,30 @@ namespace SERVICE.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Plano", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Planos");
+                });
+
             modelBuilder.Entity("SERVICE.Models.Alunos", b =>
                 {
                     b.Property<int>("Id")
@@ -78,9 +102,6 @@ namespace SERVICE.Migrations
                     b.Property<string>("TipoPlano")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("aulas")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -205,6 +226,39 @@ namespace SERVICE.Migrations
                     b.ToTable("Enderecos");
                 });
 
+            modelBuilder.Entity("SERVICE.Models.Mensalidade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AlunoId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("DataPagamento")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DataVencimento")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("PlanoId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AlunoId");
+
+                    b.HasIndex("PlanoId");
+
+                    b.ToTable("Mensalidades");
+                });
+
             modelBuilder.Entity("SERVICE.Models.Enderecos", b =>
                 {
                     b.HasOne("SERVICE.Models.Alunos", "Aluno")
@@ -216,9 +270,30 @@ namespace SERVICE.Migrations
                     b.Navigation("Aluno");
                 });
 
+            modelBuilder.Entity("SERVICE.Models.Mensalidade", b =>
+                {
+                    b.HasOne("SERVICE.Models.Alunos", "Aluno")
+                        .WithMany("Mensalidades")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Plano", "Plano")
+                        .WithMany()
+                        .HasForeignKey("PlanoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Aluno");
+
+                    b.Navigation("Plano");
+                });
+
             modelBuilder.Entity("SERVICE.Models.Alunos", b =>
                 {
                     b.Navigation("EnderecosJoin");
+
+                    b.Navigation("Mensalidades");
                 });
 #pragma warning restore 612, 618
         }

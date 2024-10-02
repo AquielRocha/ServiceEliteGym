@@ -16,51 +16,26 @@ namespace SERVICE.Controllers
             _context = context;
         }
 
-        // GET: api/mensalidades
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Mensalidade>>> GetMensalidades()
+        // GET: api/mensalidades/aluno/{alunoId}
+        [HttpGet("aluno/{alunoId}")]
+        public async Task<ActionResult<IEnumerable<Mensalidade>>> GetMensalidadesByAluno(int alunoId)
         {
-            return await _context.Mensalidades
-                .Include(m => m.Aluno)
-                .Include(m => m.Plano)
+            var mensalidades = await _context.Mensalidades
+                .Where(m => m.AlunoId == alunoId)
+                .Include(m => m.Plano) // Inclui detalhes do plano, se necessário
                 .ToListAsync();
-        }
 
-        // GET: api/mensalidades/{id}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Mensalidade>> GetMensalidade(int id)
-        {
-            var mensalidade = await _context.Mensalidades
-                .Include(m => m.Aluno)
-                .Include(m => m.Plano)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (mensalidade == null)
+            if (mensalidades == null || !mensalidades.Any())
             {
-                return NotFound();
+                return NotFound("Nenhuma mensalidade encontrada para o aluno.");
             }
 
-            return mensalidade;
-        }
-
-        // POST: api/mensalidades/add
-        [HttpPost("add")]
-        public async Task<ActionResult<Mensalidade>> AddMensalidade([FromBody] Mensalidade mensalidade)
-        {
-            if (mensalidade == null)
-            {
-                return BadRequest("Dados da mensalidade inválidos.");
-            }
-
-            _context.Mensalidades.Add(mensalidade);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetMensalidade), new { id = mensalidade.Id }, mensalidade);
+            return Ok(mensalidades);
         }
 
         // PUT: api/mensalidades/edit/{id}
         [HttpPut("edit/{id}")]
-        public async Task<IActionResult> EditMensalidade(int id, [FromBody] Mensalidade mensalidade)
+        public async Task<IActionResult> UpdateMensalidade(int id, Mensalidade mensalidade)
         {
             if (id != mensalidade.Id)
             {
@@ -84,22 +59,6 @@ namespace SERVICE.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
-        }
-
-        // DELETE: api/mensalidades/del/{id}
-        [HttpDelete("del/{id}")]
-        public async Task<IActionResult> DeleteMensalidade(int id)
-        {
-            var mensalidade = await _context.Mensalidades.FindAsync(id);
-            if (mensalidade == null)
-            {
-                return NotFound();
-            }
-
-            _context.Mensalidades.Remove(mensalidade);
-            await _context.SaveChangesAsync();
 
             return NoContent();
         }
