@@ -11,10 +11,6 @@ namespace SERVICE.Models
         public string Telefone { get; set; }
         public DateTime DataCadastro { get; set; }
         public string Objetivos { get; set; }
-        public string TipoPlano { get; set; }
-        public string StatusPagamento { get; set; }
-        public string InformacoesMedicas { get; set; }
-        public string PreferenciasTreino { get; set; }
         public bool Ativo { get; set; }
 
         // Adicionando a coleção de mensalidades
