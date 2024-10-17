@@ -58,40 +58,51 @@ namespace SERVICE.Controllers
         /// Adds a new appliance to the database.
         /// </summary>
         /// <param name="aparelho">The appliance to add.</param>
-        /// <returns>The created appliance.</returns>
+                /// <returns>The created appliance.</returns>
         [HttpPost("add")]
-        public async Task<ActionResult<Aparelho>> PostAparelho(Aparelho aparelho)
+        public async Task<ActionResult<Aparelho>> PostAparelho([FromBody] Aparelho aparelho)
         {
-            if (aparelho == null)
+            try
             {
-                return BadRequest("O aparelho não pode ser nulo.");
+                if (aparelho == null)
+                {
+                    return BadRequest("O aparelho não pode ser nulo.");
+                }
+
+                if (!string.IsNullOrEmpty(aparelho.Foto))
+                {
+                    if (!IsBase64String(aparelho.Foto))
+                    {
+                        return BadRequest("A imagem fornecida não é uma string Base64 válida.");
+                    }
+                }
+
+                _context.Aparelhos.Add(aparelho);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction(nameof(GetAparelho), new { id = aparelho.Id }, aparelho);
             }
+           catch (DbUpdateException dbEx)
+           {
+                Console.WriteLine($"Erro ao salvar no banco de dados: {dbEx.Message}");
+                Console.WriteLine(dbEx.InnerException?.Message); // Mensagem de erro interna
 
-            _context.Aparelhos.Add(aparelho);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetAparelho), new { id = aparelho.Id }, aparelho);
+                return StatusCode(500, "Erro ao salvar o aparelho no banco de dados.");
+            }
+            catch (Exception ex)
+            {
+                // Log detalhado para qualquer outra exceção
+                Console.WriteLine($"Erro inesperado: {ex.Message}");
+                return StatusCode(500, "Ocorreu um erro inesperado.");
+            }
+        }
+        // Método auxiliar para verificar se a string é Base64 válida (opcional)
+        private bool IsBase64String(string base64)
+        {
+            base64 = base64.Trim();
+            return (base64.Length % 4 == 0) && System.Text.RegularExpressions.Regex.IsMatch(base64, @"^[a-zA-Z0-9\+/]*={0,2}$", System.Text.RegularExpressions.RegexOptions.None);
         }
 
-        /// <summary>
-        /// Updates an existing appliance in the database.
-        /// </summary>
-        /// <param name="id">The ID of the appliance to update.</param>
-        /// <param name="aparelho">The updated appliance details.</param>
-        /// <returns>The updated appliance.</returns>
-        [HttpPut("update/{id}")]
-        public async Task<IActionResult> PutAparelho(int id, Aparelho aparelho)
-        {
-            if (id != aparelho.Id)
-            {
-                return BadRequest("O ID do aparelho não corresponde ao ID da URL.");
-            }
-
-            _context.Entry(aparelho).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
 
         /// <summary>
         /// Deletes a specific appliance by ID.

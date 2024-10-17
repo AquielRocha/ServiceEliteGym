@@ -8,5 +8,6 @@ namespace SERVICE.Models
         public string Foto { get; set; }
         public string Categoria { get; set; }
         public bool Manutencao { get; set; }
+        public bool Favorite { get; set; } 
     }
 }
