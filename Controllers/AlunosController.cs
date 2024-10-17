@@ -39,10 +39,9 @@ namespace SERVICE.Controllers
                 Telefone = a.Telefone,
                 DataCadastro = a.DataCadastro,
                 Objetivos = a.Objetivos,
-                TipoPlano = a.TipoPlano,
-                StatusPagamento = a.StatusPagamento,
-                InformacoesMedicas = a.InformacoesMedicas,
-                PreferenciasTreino = a.PreferenciasTreino,
+              
+                
+
                 Ativo = a.Ativo,
                 Enderecos = a.EnderecosJoin.Select(e => new EnderecoDto
                 {
@@ -90,10 +89,8 @@ namespace SERVICE.Controllers
                 Telefone = createAlunoComEnderecosDto.Telefone,
                 DataCadastro = DateTime.UtcNow,
                 Objetivos = createAlunoComEnderecosDto.Objetivos,
-                TipoPlano = createAlunoComEnderecosDto.TipoPlano,
-                StatusPagamento = createAlunoComEnderecosDto.StatusPagamento,
-                InformacoesMedicas = createAlunoComEnderecosDto.InformacoesMedicas,
-                PreferenciasTreino = createAlunoComEnderecosDto.PreferenciasTreino,
+              
+            
                 Ativo = createAlunoComEnderecosDto.Ativo
             };
 
@@ -169,10 +166,8 @@ namespace SERVICE.Controllers
                 Telefone = aluno.Telefone,
                 DataCadastro = aluno.DataCadastro,
                 Objetivos = aluno.Objetivos,
-                TipoPlano = aluno.TipoPlano,
-                StatusPagamento = aluno.StatusPagamento,
-                InformacoesMedicas = aluno.InformacoesMedicas,
-                PreferenciasTreino = aluno.PreferenciasTreino,
+                
+              
                 Ativo = aluno.Ativo,
                 Enderecos = aluno.EnderecosJoin.Select(e => new EnderecoDto
                 {
