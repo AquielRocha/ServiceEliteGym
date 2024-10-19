@@ -13,10 +13,10 @@ namespace SERVICE.Models
         public string Objetivos { get; set; }
         public bool Ativo { get; set; }
 
-        // Adicionando a coleção de mensalidades
-        public ICollection<Mensalidade> Mensalidades { get; set; } = new List<Mensalidade>();
+        // Relacionamento com aulas
+        public ICollection<Aula> Aulas { get; set; } = new List<Aula>();
         
-        // Para armazenar endereços
+        public ICollection<Mensalidade> Mensalidades { get; set; } = new List<Mensalidade>();
         public ICollection<Enderecos> EnderecosJoin { get; set; } = new List<Enderecos>();
     }
 }

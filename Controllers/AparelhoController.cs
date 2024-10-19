@@ -64,43 +64,64 @@ namespace SERVICE.Controllers
         {
             try
             {
+                // Verifica se o objeto enviado é nulo
                 if (aparelho == null)
                 {
                     return BadRequest("O aparelho não pode ser nulo.");
                 }
 
-                if (!string.IsNullOrEmpty(aparelho.Foto))
+                // Verifica se a URL da foto fornecida é válida (opcional)
+                if (!string.IsNullOrEmpty(aparelho.Foto) && !Uri.IsWellFormedUriString(aparelho.Foto, UriKind.Absolute))
                 {
-                    if (!IsBase64String(aparelho.Foto))
-                    {
-                        return BadRequest("A imagem fornecida não é uma string Base64 válida.");
-                    }
+                    return BadRequest("A URL da imagem fornecida não é válida.");
                 }
 
+                // Adiciona o aparelho ao contexto
                 _context.Aparelhos.Add(aparelho);
                 await _context.SaveChangesAsync();
 
+                // Retorna o recurso criado
                 return CreatedAtAction(nameof(GetAparelho), new { id = aparelho.Id }, aparelho);
-            }
-           catch (DbUpdateException dbEx)
-           {
-                Console.WriteLine($"Erro ao salvar no banco de dados: {dbEx.Message}");
-                Console.WriteLine(dbEx.InnerException?.Message); // Mensagem de erro interna
-
-                return StatusCode(500, "Erro ao salvar o aparelho no banco de dados.");
             }
             catch (Exception ex)
             {
-                // Log detalhado para qualquer outra exceção
+                // Log detalhado para exceções
                 Console.WriteLine($"Erro inesperado: {ex.Message}");
-                return StatusCode(500, "Ocorreu um erro inesperado.");
+                return StatusCode(500, "Ocorreu um erro inesperado no servidor.");
             }
         }
-        // Método auxiliar para verificar se a string é Base64 válida (opcional)
-        private bool IsBase64String(string base64)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAparelho(int id, Aparelho aparelho)
         {
-            base64 = base64.Trim();
-            return (base64.Length % 4 == 0) && System.Text.RegularExpressions.Regex.IsMatch(base64, @"^[a-zA-Z0-9\+/]*={0,2}$", System.Text.RegularExpressions.RegexOptions.None);
+            if (id != aparelho.Id)
+            {
+                return BadRequest("ID do aparelho não corresponde.");
+            }
+
+            _context.Entry(aparelho).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AparelhoExists(id))
+                {
+                    return NotFound("Aparelho não encontrado.");
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+        private bool AparelhoExists(int id)
+        {
+            return _context.Aparelhos.Any(e => e.Id == id);
         }
 
 
