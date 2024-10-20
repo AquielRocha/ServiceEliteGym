@@ -21,14 +21,18 @@ namespace SERVICE.Controllers
         [HttpGet("getAll")]
         public async Task<ActionResult<IEnumerable<Aula>>> GetAulas()
         {
-            return await _context.Aulas.ToListAsync();
+            return await _context.Aulas
+                .Include(a => a.AlunosInscritos)  // Inclua os alunos inscritos em todas as aulas
+                .ToListAsync();
         }
 
         // GET: api/aulas/5
-        [HttpGet("GET{id}")]
+        [HttpGet("GET/{id}")]
         public async Task<ActionResult<Aula>> GetAula(int id)
         {
-            var aula = await _context.Aulas.FindAsync(id);
+            var aula = await _context.Aulas
+                .Include(a => a.AlunosInscritos)  // Inclua os alunos inscritos na aula
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             if (aula == null)
             {
