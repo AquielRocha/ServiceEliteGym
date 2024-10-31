@@ -11,6 +11,7 @@ namespace SERVICE.Data
         }
 
         public DbSet<Aula> Aulas { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Aparelho> Aparelhos { get; set; }
         public DbSet<Alunos> Alunos { get; set; }
         public DbSet<Enderecos> Enderecos { get; set; }

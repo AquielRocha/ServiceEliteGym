@@ -3,6 +3,7 @@ using SERVICE.Data;
 using SERVICE.Models;
 using SERVICE.Dtos.Alunos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SERVICE.Controllers
 {
@@ -16,6 +17,10 @@ namespace SERVICE.Controllers
         {
             _context = context;
         }
+    
+    
+    
+    [Authorize]
 
         // GET: api/alunos
         [HttpGet("GetAll")]
